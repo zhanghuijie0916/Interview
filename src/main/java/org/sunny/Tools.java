@@ -2,7 +2,7 @@ package org.sunny;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,9 +32,6 @@ public class Tools {
             System.out.println(set);
         }
         System.out.println("-----------------------------------------");
-
-
-
     }
 
     /**
@@ -58,6 +55,111 @@ public class Tools {
         }
     }
 
+    /*
+     * 参数arrayA:给定字符串的字符数组
+     * 参数start:开始遍历字符与其后面各个字符将要进行交换的位置
+     * 参数end:字符串数组的最后一位
+     * 函数功能：输出字符串数字的各个字符全排列
+     *
+     * 主函数：
+        String A = "abc";
+        char[] arrayA = A.toCharArray();
+        test.recursionArrange(arrayA,0,arrayA.length-1);
+     */
+    public static void recursionArrange(char[] arrayA,int start,int end){
+        if(end <= 1)
+            return;
+        if(start == end){
+            StringBuilder builder = new StringBuilder();
+            for(int i = 0;i < arrayA.length;i++)
+                builder.append(arrayA[i]);
+                /*System.out.print(arrayA[i]);*/
+            System.out.println();
+        }
+        else{
+            for(int i = start;i <= end;i++){
+                swap(arrayA,i,start);
+                recursionArrange(arrayA,start+1,end);
+                swap(arrayA,i,start);
+            }
+        }
+
+    }
+    //交换数组m位置和n位置上的值
+    public static void swap(char[] arrayA,int m,int n){
+        char temp = arrayA[m];
+        arrayA[m] = arrayA[n];
+        arrayA[n] = temp;
+    }
+
+    /**
+     * 得到小于n的质数
+     * @param n
+     * @return
+     */
+    public static List<Integer> listPrime(int n) {
+    /*
+     * false为质数,true为合数
+     */
+        boolean[] primeList = new boolean[n + 1];
+
+        for (int i = 2; i <= n; i++) {
+            if (!primeList[i]) {
+
+                int j = i * i;
+
+                if (j > n) // 所有合数都已被标记
+                    break;
+                if (i > 2) {
+                /*
+                 * 将所有能被此质数整除的奇数标记为合数
+                 */
+                    while (j <= n) {
+                        primeList[j] = true;
+                        j = j + i + i;
+                    }
+                } else {
+                /*
+                 * 将所有大于2的偶数标记为合数
+                 */
+                    while (j <= n) {
+                        primeList[j] = true;
+                        j = j + i;
+                    }
+                }
+            }
+        }
+        List<Integer> listPrime = new LinkedList<Integer>();
+        if( n > 1 )
+            listPrime.add(2);
+        for (int i = 3; i <= n; i += 2) {
+            if (!primeList[i]) {
+                listPrime.add(i);
+            }
+        }
+        System.out.println(listPrime.size());
+        return listPrime;
+    }
+
+    /**
+     * 判断一个数是否是质数
+     * @return
+     */
+    public static boolean isPrime(int a){
+        boolean flag = true;
+        if(a<2){
+            return false;
+        }else{
+            for(int i=2;i<a;i++){
+                if(a%i==0){
+                    flag = false;
+                    break;
+                }
+            }
+        }
+        return flag;
+    }
+
     /**
      *
      *得到一个数在斐波那切数列中的位置
@@ -77,7 +179,6 @@ public class Tools {
      * 得到一个数组的所有子集
      *
      */
-
     public static ArrayList<ArrayList<Integer>> getSubsets(ArrayList<Integer> set, int index){
         ArrayList<ArrayList<Integer>> allsubsets;
         if(set.size() == index){
@@ -193,6 +294,43 @@ public class Tools {
         }
         return value;
     }
+
+    /**
+     * 字符串的交集、差集、并集
+     */
+    public static void setCal(){
+        Set<String> result = new HashSet<String>();
+        Set<String> set1 = new HashSet<String>() {
+            {
+                add("王者荣耀");
+                add("英雄联盟");
+                add("穿越火线");
+                add("地下城与勇士");
+            }
+        };
+        Set<String> set2 = new HashSet<String>() {
+            {
+                add("王者荣耀");
+                add("地下城与勇士");
+                add("魔兽世界");
+            }
+        };
+        result.clear();
+        result.addAll(set1);
+        result.retainAll(set2);
+        System.out.println("交集：" + result);
+
+        result.clear();
+        result.addAll(set1);
+        result.removeAll(set2);
+        System.out.println("差集：" + result);
+
+        result.clear();
+        result.addAll(set1);
+        result.addAll(set2);
+        System.out.println("并集：" + result);
+    }
+
 
 }
 
