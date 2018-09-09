@@ -1,6 +1,16 @@
 package exam;
 
+import java.io.UnsupportedEncodingException;
+
 public class ZiJie3 {
+    public static boolean isUTF8(String key){
+        try {
+            key.getBytes("utf-8");
+            return true;
+        } catch (UnsupportedEncodingException e) {
+            return false;
+        }
+    }
     public static void main(String[] args) throws Exception {
         byte[][] bytes = {
 // 00110001
