@@ -85,6 +85,7 @@ public class Tools {
         }
 
     }
+
     //交换数组m位置和n位置上的值
     public static void swap(char[] arrayA,int m,int n){
         char temp = arrayA[m];
