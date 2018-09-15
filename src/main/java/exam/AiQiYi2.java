@@ -6,50 +6,46 @@ public class AiQiYi2 {
     }
 }
 
-    #include<iostream>
-#include<algorithm>
-#include<cstdio>
-#include<vector>
-using namespace std;
-
-        struct interval{
-        int begin;
-        int end;
+    int main(){
+        struct SEGMENT{
+            int x;
+            int y;
         };
-
-        bool cmp(interval x,interval y){
-        return x.end < y.end;
-        }
-
-
-        int main(){
-        freopen("a.txt", "r", stdin);
-        int m;
-        cin >> m;
-
-        while (m--){
-        int n;
-        cin >> n;
-
-        vector<interval> vec(n);
-
-        for (int i = 0; i < n;i++){
-        cin >> vec[i].begin >> vec[i].end;
-        }
-
-        sort(vec.begin(),vec.end(),cmp);
-
-        int end = -1;
-        int res = 0;
-        for (int i = 0; i < n;i++){
-        if (end<vec[i].begin){
-        res++;
-        end = vec[i].end;
-        }
-        }
-
-        cout << res << endl;
-
+        int n,si,ei,pos,k,tmp,i,cur;
+        struct SEGMENT seg[101];
+        while(cin>>n){
+            pos = 0;
+            if(n==0)break;
+            while(n--){
+                cin>>si>>ei;
+                seg[pos].x=si;
+                seg[pos].y=ei;
+                pos++;
+            }
+            //BubbleSort
+            for(k=1;k<pos;k++){
+                for(i=0;i<pos-k;i++){
+                    if(seg[i].y>seg[i+1].y){
+                        //swap
+                        tmp=seg[i+1].y;
+                        seg[i+1].y=seg[i].y;
+                        seg[i].y=tmp;
+                        tmp=seg[i+1].x;
+                        seg[i+1].x=seg[i].x;
+                        seg[i].x=tmp;
+                    }
+                }
+            }
+            //main process
+            cur=seg[0].y;
+            int cnt=1;
+            for(k=1;k<pos;k++){
+                if(seg[k].x>=cur){
+                    cur=seg[k].y;
+                    cnt++;
+                }
+            }
+            cout<<cnt<<endl;
         }
         return 0;
-        }
+    }
