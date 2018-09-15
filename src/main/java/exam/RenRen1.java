@@ -9,16 +9,3 @@ public class RenRen1 {
 }
 
 
-#include<stdio.h>
-        int main()
-        {long long i,n,m,k,x,y=0;
-        scanf("%lld%lld",&n,&k);
-        for(x=1;x<=n;x<<=1);
-        x>>=1;
-        for(m=0;m<=k&&x>0;m++)
-        {y+=x;
-        x>>=1;
-        }
-        printf("%lld\n",y);
-        return 0;
-        }
