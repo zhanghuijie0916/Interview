@@ -1,36 +1,38 @@
 package exam;
 
+
 import java.util.Scanner;
 
 
 public class XinLang1 {
 
-    //求解str1 和 str2 的最长公共子序列
-    public static int LCS(String str1, String str2){
-        int[][] c = new int[str1.length() + 1][str2.length() + 1];
-        for(int row = 0; row <= str1.length(); row++)
-            c[row][0] = 0;
-        for(int column = 0; column <= str2.length(); column++)
-            c[0][column] = 0;
+    public static int LCS(String s1, String s2){
+        int[][] arr = new int[s1.length() + 1][s2.length() + 1];
+        for(int row = 0; row <= s1.length(); row++)
+            arr[row][0] = 0;
+        for(int col = 0; col <= s2.length(); col++)
+            arr[0][col] = 0;
 
-        for(int i = 1; i <= str1.length(); i++)
-            for(int j = 1; j <= str2.length(); j++)
+        for(int i = 1; i <= s1.length(); i++)
+            for(int j = 1; j <= s2.length(); j++)
             {
-                if(str1.charAt(i-1) == str2.charAt(j-1))
-                    c[i][j] = c[i-1][j-1] + 1;
-                else if(c[i][j-1] > c[i-1][j])
-                    c[i][j] = c[i][j-1];
+                if(s1.charAt(i-1) == s2.charAt(j-1))
+                    arr[i][j] = arr[i-1][j-1] + 1;
+                else if(arr[i][j-1] > arr[i-1][j])
+                    arr[i][j] = arr[i][j-1];
                 else
-                    c[i][j] = c[i-1][j];
+                    arr[i][j] = arr[i-1][j];
             }
-        return c[str1.length()][str2.length()];
+        return arr[s1.length()][s2.length()];
     }
 
-    //test
     public static void main(String[] args) {
-        String str1 = "BDCABA";
-        String str2 = "ABCBDAB";
-        int result = LCS(str1, str2);
+        Scanner scan = new Scanner(System.in);
+        String s1 = scan.nextLine();
+        String s2 = scan.nextLine();
+        /*System.out.println(s1);
+        System.out.println(s2);*/
+        int result = LCS(s1, s2);
         System.out.println(result);
     }
 }

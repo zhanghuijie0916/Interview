@@ -1,36 +1,48 @@
 package exam;
 
-import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class ZiJie3 {
-    public static boolean isUTF8(String key){
-        try {
-            key.getBytes("utf-8");
-            return true;
-        } catch (UnsupportedEncodingException e) {
-            return false;
+    public static int isUTF8(List<Byte> data){
+        byte[] masks ={0x0,(byte) 0x80,(byte) 0xE0,(byte) 0xF0,(byte) 0xF8};
+        byte[] bits ={0x0,(byte) 0x0,(byte) 0xC0,(byte) 0xE0,(byte) 0xF0};
+
+        while (data.size()>0){
+            int x;
+            for (x=4;x>=0;x--){
+                if ((data.get(0) & masks[x])== bits[x]){
+                    break;
+                }
+            }
+
+            if (x==0 || data.size()<x){
+                return 0 ;
+            }
+            for (int y=1;y<x;y++){
+                if ((data.get(y) & 0xC0) != 0x80){
+                    return 0;
+                }
+            }
+
+            data = data.subList(x,data.size());
         }
+
+        return 1;
+
     }
     public static void main(String[] args) throws Exception {
-        byte[][] bytes = {
-// 00110001
-                {(byte)0x31},
-// 11000000 10110001
-                {(byte)0xC0,(byte)0xB1},
-// 11100000 10000000 10110001
-                {(byte)0xE0,(byte)0x80,(byte)0xB1},
-// 11110000 10000000 10000000 10110001
-                {(byte)0xF0,(byte)0x80,(byte)0x80,(byte)0xB1},
-// 11111000 10000000 10000000 10000000 10110001
-                {(byte)0xF8,(byte)0x80,(byte)0x80,(byte)0x80,(byte)0xB1},
-// 11111100 10000000 10000000 10000000 10000000 10110001
-                {(byte)0xFC,(byte)0x80,(byte)0x80,(byte)0x80,(byte)0x80,(byte)0xB1},
-        };
-        for (int i = 0; i < 6; i++) {
-            String str = new String(bytes[i], "UTF-8");
-            System.out.println("原数组长度：" + bytes[i].length +
-                    "/t转换为字符串：" + str +
-                    "/t转回后数组长度：" + str.getBytes("UTF-8").length);
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        List<Byte> data = new ArrayList<>();
+        for (int i=0;i<n;i++){
+            data.add((byte)sc.nextInt());
         }
+
+        int res = isUTF8(data);
+        System.out.println(res);
+
+
     }
 }

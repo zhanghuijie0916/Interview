@@ -7,79 +7,40 @@ import java.util.Scanner;
 public class T3602 {
 
 
-    public void transform(int num,int n){
+    public static String transform(long num,long n){
 
         //参数num为输入的十进制数，参数n为要转换的进制
-
-        int array[]=new int[100];
-
+        long array[]=new long[10000];
         int count=0;
-
         int location=0;
-
         while(num!=0){//当输入的数不为0时循环执行求余和赋值
-
-            int remainder=num%n;
-
+            long remainder=num%n;
             num=num/n;
-
-
-
             array[location]=remainder;//将结果加入到数组中去
-
             location++;
-
             count++;
-
         }
-
-        show(array,location-1,count);
-
-
-
+        String res = show(array,location-1,count,n);
+        return res;
     }
-
-    private void show(int[] arr,int n,int count){
-
-
-
-
-
+    private static String show(long[] arr,int n,long count,long k){
+        StringBuilder builder = new StringBuilder();
         for(int i=n;i>=0;i--){
-
-
-
-
-
-
-
-
-
             if(arr[i]<0) {
-
                 for(int j=0;j<count-1;j++) {
-
                     arr[j]=Math.abs(arr[j]);
-
                 }
-
-
-
-
-
             }
-
             if(arr[i]>9||arr[i]<-9){
-
-                System.out.print((char)(arr[i]+55));
-
+                builder.append((char)(arr[i]+55));
+                //System.out.print((char)(arr[i]+55));
             }
-
             else
-
-                System.out.print(arr[i]+"");
-
+                builder.append(arr[i]);
+               // System.out.print(arr[i]+"");
         }
+
+        return builder.toString();
 
     }
 
@@ -88,10 +49,40 @@ public class T3602 {
     {
 
         // 测试用例
-
-        T3602 t=new T3602();
-
         Scanner sc=new Scanner(System.in);
+        int p = Integer.valueOf(sc.nextLine());
+        for (int i=0;i<p;i++){
+            String[] arr = sc.nextLine().split(" ");
+            int k = Integer.valueOf(arr[0]);
+            String q = (k-1)+"";
+            long low = Integer.valueOf(arr[1]);
+            long high = Integer.valueOf(arr[2]);
+            long maxVal = 0;
+            long maxLen = 0;
+
+
+            //System.out.println(arr[0].charAt(0));
+            for (long j=low;j<high;j++){
+                String s = transform(j, k);
+
+                char[] res = s.toCharArray();
+                long tempc = 0;
+                for (char a :res){
+                    if (a==q.charAt(0)){
+                        tempc++;
+                    }
+                }
+                if (tempc>maxLen){
+                    maxLen = tempc;
+                    maxVal = j;
+                }
+
+                //System.out.println(j+":"+s+":"+tempc);
+            }
+            System.out.println(maxVal);
+        }
+
+        /*Scanner sc=new Scanner(System.in);
 
         String[] str=sc.nextLine().split(" ");
 
@@ -101,12 +92,12 @@ public class T3602 {
 
             a[i]=Integer.parseInt(str[i]);
 
-        }
+        }*/
 
-
-
-        t.transform(a[0], a[1]);
-
+        /*String s = t.transform(100, 8);
+        System.out.println("-----");
+        System.out.println(s);
+*/
 
 
     }

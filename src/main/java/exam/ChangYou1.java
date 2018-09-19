@@ -1,30 +1,28 @@
 package exam;
 
 import java.util.Scanner;
+
 /**
- * @author ForeverLover
+ * 生兔子问题，第一个月第二个月不能生，第三个月可以生，生下来这只也是第一、二个月不能生，以此类推。
  */
 public class  ChangYou1 {
     public static void main(String[] args) {
-        long s1 = 1;
-        long s2 = 1;
+        long first = 1;
+        long second = 1;
         int count;
-        long temp;
+        long t;
         Scanner in = new Scanner(System.in);
         count = in.nextInt();
         for (int i = 1; i <= count; i++) {
-            if (i == 1) {
-                System.out.println("第" + i + "个月的兔子对数：" + s1);
-                continue;
-            } else if (i == 2) {
-                System.out.println("第" + i + "个月的兔子对数：" + s2);
+            if (i == 1 | i==2) {
                 continue;
             } else {
-                temp = s2;
-                s2 = s1 + s2;
-                s1 = temp;
-                System.out.println("第" + i + "个月的兔子对数：" + s2);
+                t = second;
+                second = first + second;
+                first = t;
+
             }
         }
+        System.out.println( second);
     }
 }
