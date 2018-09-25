@@ -1,31 +1,40 @@
 package exam;
 
 import java.util.LinkedList;
+import java.util.Scanner;
+
 class ZiJie1 {
-    public int lengthOfLongestSubstring(String s) {
-        int num = 0;//记录最长子串长度
-        int current = 0;//记录当前子串长度
+    public static int maxLongUniqueString(String s) {
+        int res = 0;//记录最长子串长度
+        int ct = 0;//记录当前子串长度
         char[] arr = s.toCharArray();
-        LinkedList<Character> temp = new LinkedList<>();
+        LinkedList<Character> list = new LinkedList<>();
 
         for (int i = 0; i < arr.length; i++) {
-            if (!temp.contains(arr[i])) {
-                temp.add(arr[i]);
-                current = temp.size();
-                if (current > num)
-                    num = current;
+            if (!list.contains(arr[i])) {
+                list.add(arr[i]);
+                ct = list.size();
+                if (ct > res)
+                    res = ct;
             } else//如果新增字符与原子串中字符有重复的，删除原子串中重复字符及在它之前的字符，与新增字符组成新的子串
             {
-                temp.add(arr[i]);
-                int first = temp.indexOf(arr[i]);
+                list.add(arr[i]);
+                int first = list.indexOf(arr[i]);
 
                 for (int j = 0; j < first; j++)
-                    temp.remove();
+                    list.remove();
 
-                temp.remove();
+                list.remove();
             }
         }
-        return num;
+        return res;
+    }
+
+    public static void main(String[] args){
+        Scanner scanner = new Scanner(System.in);
+        String s = scanner.nextLine();
+        int res = maxLongUniqueString(s);
+        System.out.println(res);
     }
 
 
